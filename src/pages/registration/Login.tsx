@@ -1,4 +1,11 @@
+import axios from "axios";
+import { useState } from "react";
+
 const Login = () => {
+  const [data, setData] = useState({
+    email: "ashimkarki9878@gmail.com",
+    password: "pass1234",
+  });
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -13,7 +20,7 @@ const Login = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
           <div>
             <label
               htmlFor="email"
@@ -27,7 +34,6 @@ const Login = () => {
                 name="email"
                 type="email"
                 autoComplete="email"
-                required
                 className="reg-input"
               />
             </div>
@@ -56,7 +62,6 @@ const Login = () => {
                 name="password"
                 type="password"
                 autoComplete="current-password"
-                required
                 className="reg-input"
               />
             </div>
@@ -64,6 +69,12 @@ const Login = () => {
 
           <div>
             <button
+              onClick={async () => {
+                const res = await axios.post("/login", {
+                  ...data,
+                });
+                console.log(res);
+              }}
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >

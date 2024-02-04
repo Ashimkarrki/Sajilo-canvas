@@ -1,4 +1,5 @@
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Filters = () => {
   const [category] = useState([
@@ -7,11 +8,15 @@ const Filters = () => {
     "Bathroom Wares",
     "Furnitures",
   ]);
-  const [selected, setSelected] = useState("Descoratives");
-  const checkboxHandeler = (e: {
-    target: { name: SetStateAction<string> };
-  }) => {
-    setSelected(e.target.name);
+  const [options, setOptions] = useState({
+    cat: "no",
+    sort: "no",
+    min: "no",
+    max: "no",
+  });
+
+  const checkboxHandeler = (e: { target: { name: any } }) => {
+    setOptions({ ...options, cat: e.target.name });
   };
   return (
     <form className="flex flex-col gap-4 p-4">
@@ -25,7 +30,7 @@ const Filters = () => {
                 <input
                   type="checkbox"
                   name={s}
-                  checked={s === selected}
+                  checked={s === options.cat}
                   onChange={checkboxHandeler}
                   className="checkbox  checkbox-sm"
                 />
@@ -38,6 +43,9 @@ const Filters = () => {
         <h1>Price : </h1>
         <div className="flex">
           <input
+            onChange={(e) => {
+              setOptions({ ...options, min: e.target.value });
+            }}
             type="number"
             placeholder="min"
             className=" [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none border-2 w-20 px-1 rounded-md"
@@ -46,6 +54,9 @@ const Filters = () => {
           />{" "}
           :{" "}
           <input
+            onChange={(e) => {
+              setOptions({ ...options, max: e.target.value });
+            }}
             type="number"
             className=" [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none border-2 w-20 rounded-md"
             placeholder="max"
@@ -55,16 +66,32 @@ const Filters = () => {
         </div>
       </div>
       <div>
-        <select className="select bg-white select-sm select-bordered w-full max-w-xs">
+        <select
+          className="select bg-white select-sm select-bordered w-full max-w-xs"
+          onClick={(e) => {
+            // console.log(e.target.value);
+
+            setOptions({ ...options, sort: e.target.value });
+          }}
+        >
           <option disabled selected>
             Sort By
           </option>
-          <option>Price</option>
-          <option>Latest</option>
-          {/* <option>React</option> */}
+          <option value={"price"}>Price</option>
+          <option value={"latest"}>Latest</option>
         </select>
       </div>
-      <button className="btn btn-ghost">Apply</button>
+      <Link
+        to={`products/?${
+          options.sort === "no" ? "" : `/&sort=${options.sort}`
+        }${options.cat === "no" ? "" : `/&category=${options.cat}`}${
+          options.max === "no" ? "" : `/&max=${options.max}`
+        }${options.min === "no" ? "" : `/&min=${options.min}`}&page=${1}`}
+      >
+        <button onClick={(e) => e.preventDefault()} className="btn btn-ghost">
+          Apply
+        </button>
+      </Link>
     </form>
   );
 };

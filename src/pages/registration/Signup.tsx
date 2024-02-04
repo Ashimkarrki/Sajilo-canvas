@@ -1,4 +1,15 @@
+import axios from "axios";
+
+import { useState } from "react";
 const Signup = () => {
+  const [data, setData] = useState({
+    email: "kola@gmail.com",
+    password: "pass1234",
+    name: "hola",
+  });
+  // const changehandeler=(e)=>{
+
+  // }
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -13,7 +24,7 @@ const Signup = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
           <div>
             <label
               htmlFor="email"
@@ -26,7 +37,6 @@ const Signup = () => {
                 id="email"
                 name="email"
                 type="email"
-                required
                 className="reg-input"
               />
             </div>
@@ -43,7 +53,6 @@ const Signup = () => {
                 id="userName"
                 name="userName"
                 type="text"
-                required
                 className="reg-input"
               />
             </div>
@@ -60,7 +69,6 @@ const Signup = () => {
                 id="phno"
                 name="phno"
                 type="number"
-                required
                 className="reg-input"
               />
             </div>
@@ -77,7 +85,6 @@ const Signup = () => {
                 id="address"
                 name="address"
                 type="text"
-                required
                 className="reg-input"
               />
             </div>
@@ -90,13 +97,7 @@ const Signup = () => {
               Zip Code
             </label>
             <div className="mt-2">
-              <input
-                id="zip"
-                name="zip"
-                type="number"
-                required
-                className="reg-input"
-              />
+              <input id="zip" name="zip" type="number" className="reg-input" />
             </div>
           </div>
 
@@ -113,7 +114,6 @@ const Signup = () => {
                 id="password"
                 name="password"
                 type="password"
-                required
                 className="reg-input"
               />
             </div>
@@ -131,7 +131,6 @@ const Signup = () => {
                 id="cPassword"
                 name="cPassword"
                 type="password"
-                required
                 className="reg-input"
               />
             </div>
@@ -139,6 +138,18 @@ const Signup = () => {
 
           <div>
             <button
+              onClick={async (e) => {
+                e.preventDefault();
+                console.log("hdgf");
+                const instance = axios.create({
+                  withCredentials: true,
+                  headers: { authorization: "Bearer" },
+                });
+                const res = await instance.post("/register", {
+                  ...data,
+                });
+                console.log(res);
+              }}
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >

@@ -1,6 +1,19 @@
 import ProductCard from "../components/ProductCard";
-
+import axios from "axios";
 const Product = () => {
+  const addTocart = async () => {
+    const res = await axios.post(
+      "/addtocart",
+      {
+        productId: 1,
+        quantity: 2,
+        price: 23,
+        name: "dh",
+      },
+      { withCredentials: true }
+    );
+    console.log(res);
+  };
   return (
     <div className="m-20">
       <div className="grid grid-cols-2  gap-4">
@@ -24,7 +37,9 @@ const Product = () => {
               <button className="bg-white join-item btn btn-disabled">2</button>
               <button className="join-item btn">-</button>
             </div>
-            <button className="btn btn-primary self-start">Add To Cart</button>
+            <button onClick={addTocart} className="btn btn-primary self-start">
+              Add To Cart
+            </button>
           </div>
 
           <div>
