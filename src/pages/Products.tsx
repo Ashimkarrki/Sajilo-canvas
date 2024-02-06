@@ -50,6 +50,7 @@ const Products = ({
             price={s.price}
             category={s.category}
             desc={s.description}
+            id={s._id}
           />
         );
       })}

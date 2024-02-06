@@ -1,11 +1,36 @@
 import axios from "axios";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
-    email: "ashimkarki9878@gmail.com",
-    password: "pass1234",
+    email: "",
+    password: "",
   });
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const instance = axios.create({
+        withCredentials: true,
+        headers: { authorization: "Bearer" },
+      });
+
+      const res = await instance.post("/login", {
+        ...data,
+      });
+      navigate("/");
+
+      console.log("Registration successful:", res.data);
+    } catch (err) {
+      console.error("Registration failed:", err);
+    }
+  };
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -35,6 +60,7 @@ const Login = () => {
                 type="email"
                 autoComplete="email"
                 className="reg-input"
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -61,6 +87,7 @@ const Login = () => {
                 id="password"
                 name="password"
                 type="password"
+                onChange={handleChange}
                 autoComplete="current-password"
                 className="reg-input"
               />
@@ -69,12 +96,7 @@ const Login = () => {
 
           <div>
             <button
-              onClick={async () => {
-                const res = await axios.post("/login", {
-                  ...data,
-                });
-                console.log(res);
-              }}
+              onClick={handleSubmit}
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
