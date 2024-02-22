@@ -13,6 +13,8 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { populateCart } from "./redux/cartSlice";
+import AdminNavbar from "./components/AdminNavbar";
+import AllProducts from "./pages/adminDashboard/AllProducts";
 function App() {
   const dispatch = useDispatch();
   const fetchUserInfo = async () => {
@@ -33,7 +35,7 @@ function App() {
   console.log("xalyo");
   return (
     <div>
-      <Navbar />
+      <AdminNavbar />
 
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -43,6 +45,7 @@ function App() {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/admin/allproducts" element={<AllProducts />} />
       </Routes>
       <Footer />
     </div>
