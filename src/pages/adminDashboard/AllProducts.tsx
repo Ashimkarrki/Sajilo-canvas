@@ -6,6 +6,8 @@ import AdminCreateProduct from "../../components/AdminCreateProduct";
 
 const AllProducts = () => {
   const [creation, setCreation] = useState(false);
+  const [deleteItem, setDeleteItem] = useState("");
+
   const fetchProjects = async ({ pageParam = 1 }) => {
     const instance = axios.create({
       withCredentials: true,
@@ -73,6 +75,8 @@ const AllProducts = () => {
               {group.products?.map((s) => {
                 return (
                   <AdminProductCard
+                    setDeleteItem={setDeleteItem}
+                    deleteItem={deleteItem}
                     id={s._id}
                     key={s._id}
                     name={s.name}

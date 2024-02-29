@@ -2,7 +2,6 @@ import CartItem from "../components/CartItem";
 import OrderSummary from "../components/OrderSummary";
 import { useQuery } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import { populateCart } from "../redux/cartSlice";
 import axios from "axios";
 const Cart = () => {

@@ -1,13 +1,23 @@
 import { useState } from "react";
 import axios from "axios";
 import AdminEditProduct from "./AdminEditProduct";
-const AdminProductCard = ({ name, price, desc, id, refetch, all, img_url }) => {
+const AdminProductCard = ({
+  name,
+  price,
+  desc,
+  id,
+  refetch,
+  all,
+  img_url,
+  setDeleteItem,
+  deleteItem,
+}) => {
   const [editItem, setEditItem] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   return (
     <div className="flex flex-wrap p-8 justify-center">
-      <dialog id="my_modal_2" className="modal">
+      <dialog id={"my_modal_" + id} className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-xl text-secondary">Delete {name} ?</h3>
           <div className="flex place-content-between mt-4">
@@ -26,8 +36,12 @@ const AdminProductCard = ({ name, price, desc, id, refetch, all, img_url }) => {
                     headers: { authorization: "Bearer" },
                   });
                   try {
-                    const res = await instance.delete(`admin/product/` + id);
+                    const res = await instance.delete(
+                      `admin/product/` + deleteItem
+                    );
+                    setDeleteItem("");
                     refetch();
+                    console.log(res);
                     setIsLoading(false);
                     return res.data;
                   } catch (err) {
@@ -39,13 +53,14 @@ const AdminProductCard = ({ name, price, desc, id, refetch, all, img_url }) => {
                 Delete
               </button>
             )}
-
-            <button className="btn bg-primary">Cancel</button>
+            <form method="dialog">
+              <button className="btn btn-primary">Cancel</button>
+            </form>
           </div>
         </div>
-        {/* <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form> */}
+        <form method="dialog" className="modal-backdrop">
+          <button>Cancel</button>
+        </form>
       </dialog>
 
       {editItem == id && (
@@ -74,7 +89,10 @@ const AdminProductCard = ({ name, price, desc, id, refetch, all, img_url }) => {
             </button>{" "}
             <button
               className="btn btn-secondary btn-sm"
-              onClick={() => document.getElementById("my_modal_2").showModal()}
+              onClick={() => {
+                setDeleteItem(id);
+                return document.getElementById("my_modal_" + id).showModal();
+              }}
             >
               Delete
             </button>

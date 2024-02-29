@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { populateCart } from "../redux/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-hot-toast";
 const Product = () => {
   const [loading, setLoading] = useState(false);
 
@@ -35,10 +36,12 @@ const Product = () => {
         price: data.price,
         img_url: data.img_url,
       });
+      toast.success("Added", { position: "bottom-left" });
       dispatch(populateCart(res.data.products));
-      console.log(res.data.products);
       setLoading(false);
     } catch (err) {
+      toast.error("Login First", { position: "bottom-left" });
+      setLoading(false);
       console.log(err);
     }
   };
@@ -67,7 +70,6 @@ const Product = () => {
         const res = await axios.get(`/product/${id}`);
         console.log(res.data.result);
         dispatch(populateCart(res.data.products));
-
         return res.data.result;
       } catch (err) {
         console.log(err);

@@ -15,7 +15,14 @@ import { useDispatch } from "react-redux";
 import { populateCart } from "./redux/cartSlice";
 import AdminNavbar from "./components/AdminNavbar";
 import AllProducts from "./pages/adminDashboard/AllProducts";
+import { useSelector } from "react-redux";
+import { populateUserInfo } from "./redux/userSlice";
+import AdminProtected from "./components/AdminProtected";
+import UserProtected from "./components/UserProtected";
+import { Toaster } from "react-hot-toast";
+
 function App() {
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const fetchUserInfo = async () => {
     const instance = axios.create({
@@ -23,29 +30,46 @@ function App() {
       headers: { authorization: "Bearer" },
     });
     try {
+      const meRes = await instance.get("/me");
+      dispatch(populateUserInfo(meRes.data));
       const cartRes = await instance.get("/cart");
       dispatch(populateCart(cartRes.data.carts.products));
       return cartRes.data.carts.products;
     } catch (err) {
-      // console.log(err);
+      return err;
     }
   };
-  useQuery({ queryKey: ["cart"], queryFn: fetchUserInfo });
-
-  console.log("xalyo");
+  const { isLoading } = useQuery({
+    queryKey: ["UserInfo"],
+    queryFn: fetchUserInfo,
+  });
+  console.log(user);
+  if (isLoading) {
+    return <span className="loading loading-infinity loading-xs"></span>;
+  }
   return (
     <div>
-      <AdminNavbar />
-
+      <Toaster />
+      {user.role === "admin" ? (
+        <AdminNavbar />
+      ) : user.role === "Designer" ? (
+        ""
+      ) : (
+        <Navbar />
+      )}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/shop/:page/:sort/:cat/:min/:max" element={<Shop />} />
         <Route path="/product/:id" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/admin/allproducts" element={<AllProducts />} />
+        <Route element={<UserProtected />}>
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+        </Route>
+        <Route element={<AdminProtected />}>
+          <Route path="/admin/allproducts" element={<AllProducts />} />
+        </Route>
       </Routes>
       <Footer />
     </div>
