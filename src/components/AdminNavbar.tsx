@@ -13,7 +13,7 @@ const AdminNavbar = () => {
             <Link to={"/admin/allproducts"}>Products</Link>
           </li>
           <li>
-            <Link to={"/admin/usr-req"}>User Requests</Link>
+            <Link to={"/admin/user-req"}>User Requests</Link>
           </li>
           <li>
             <Link to={"/admin/des-req"}>Designer Requests</Link>

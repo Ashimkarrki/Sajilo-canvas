@@ -14,8 +14,11 @@ export const userSlice = createSlice({
       state.name = action.payload?.name;
       state.role = action.payload?.role;
     },
+    setRole: (state, action) => {
+      state.role = action.payload;
+    },
   },
 });
-export const { populateUserInfo } = userSlice.actions;
+export const { populateUserInfo, setRole } = userSlice.actions;
 
 export default userSlice.reducer;

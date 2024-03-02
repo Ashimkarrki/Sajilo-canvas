@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const Signup = ({ refetch }) => {
   const navigate = useNavigate();
 
   const [data, setData] = useState({
@@ -29,6 +29,7 @@ const Signup = () => {
       const res = await instance.post("/register", {
         ...data,
       });
+      refetch();
       navigate("/");
 
       console.log("Registration successful:", res.data);

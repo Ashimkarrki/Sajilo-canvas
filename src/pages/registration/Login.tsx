@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const Login = () => {
+import { setRole } from "../../redux/userSlice";
+import { useDispatch } from "react-redux";
+const Login = ({ refetch }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
@@ -21,12 +24,23 @@ const Login = () => {
         headers: { authorization: "Bearer" },
       });
 
+      refetch();
       const res = await instance.post("/login", {
         ...data,
       });
-      navigate("/");
+      console.log(res.data.user.name);
+      if (res.data.user.name === "admin") {
+        dispatch(setRole("admin"));
+        navigate("/admin/allproducts");
+      } else if (res.data.user.name.includes("designer")) {
+        dispatch(setRole("Designer"));
 
-      console.log("Registration successful:", res.data);
+        navigate("/designer");
+      } else {
+        dispatch(setRole("user"));
+
+        navigate("/");
+      }
     } catch (err) {
       console.error("Registration failed:", err);
     }

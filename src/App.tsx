@@ -20,6 +20,11 @@ import { populateUserInfo } from "./redux/userSlice";
 import AdminProtected from "./components/AdminProtected";
 import UserProtected from "./components/UserProtected";
 import { Toaster } from "react-hot-toast";
+import Hireus from "./pages/Hireus";
+import UserRequests from "./pages/adminDashboard/UserRequests";
+import DesignerProtected from "./components/DesignerProtected";
+import Requests from "./pages/designerDashboard/Requests";
+import DesignerRequests from "./pages/adminDashboard/DesignerRequests";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -39,7 +44,7 @@ function App() {
       return err;
     }
   };
-  const { isLoading } = useQuery({
+  const { isLoading, refetch } = useQuery({
     queryKey: ["UserInfo"],
     queryFn: fetchUserInfo,
   });
@@ -58,17 +63,24 @@ function App() {
         <Navbar />
       )}
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login refetch={refetch} />} />
         <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
+
+        <Route path="/signup" element={<Signup refetch={refetch} />} />
         <Route path="/shop/:page/:sort/:cat/:min/:max" element={<Shop />} />
         <Route path="/product/:id" element={<Product />} />
+        <Route path="/hireus" element={<Hireus />} />
         <Route element={<UserProtected />}>
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
         </Route>
         <Route element={<AdminProtected />}>
           <Route path="/admin/allproducts" element={<AllProducts />} />
+          <Route path="/admin/user-req" element={<UserRequests />} />
+          <Route path="/admin/des-req" element={<DesignerRequests />} />
+        </Route>
+        <Route element={<DesignerProtected />}>
+          <Route path="/designer" element={<Requests />}></Route>
         </Route>
       </Routes>
       <Footer />
