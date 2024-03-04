@@ -85,14 +85,14 @@ const Product = () => {
       <div className="grid grid-cols-2  gap-4">
         <div>
           <img
-            src="https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg"
-            alt="bag"
+            className="w-full aspect-square object-cover"
+            src={data.img_url}
+            alt={data.name}
           />
         </div>
         <div className="flex flex-col gap-2 ">
           <h1 className="text-2xl font-medium">{data.name}</h1>
           <p className="font-medium">Nrs. {data.price}</p>
-          <p>{data.description}</p>
 
           {isPresent() ? (
             <button
@@ -163,24 +163,10 @@ const Product = () => {
             <div tabIndex={0} className="collapse bg-base-200 collapse-plus">
               <div className="collapse-title  ">Descripton</div>
               <div className="collapse-content">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
-                  in atque odio suscipit qui non dignissimos sit accusantium, ex
-                  quam.
-                </p>
+                <p>{data.description}</p>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div>
-        <p className=" divider text-center divider-primary font-medium text-xl">
-          Customer Also Bought{" "}
-        </p>
-        <div className="flex gap-8 flex-wrap justify-center">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
         </div>
       </div>
     </div>

@@ -5,8 +5,9 @@ const ProductCard = ({ name, img_url, price, category, desc, id }) => {
       <div className="card card-compact w-72 bg-base-100 shadow-xl">
         <figure>
           <img
-            src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-            alt="Shoes"
+            className="w-full aspect-video object-cover"
+            src={img_url}
+            alt={name}
           />
         </figure>
         <div className="card-body">
@@ -14,9 +15,9 @@ const ProductCard = ({ name, img_url, price, category, desc, id }) => {
           <p className="text-sm">{desc}</p>
           <p className="font-medium">Nrs. {price}</p>
           <div className="card-actions justify-end">
-            <button className="btn btn-primary btn-sm">
-              <Link to={"/product/" + id}>See Details</Link>
-            </button>
+            <Link to={"/product/" + id}>
+              <button className="btn btn-primary btn-sm">See Details</button>
+            </Link>
           </div>
         </div>
       </div>

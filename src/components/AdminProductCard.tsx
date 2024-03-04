@@ -74,7 +74,11 @@ const AdminProductCard = ({
 
       <div className="card card-compact w-72 bg-base-100 shadow-xl">
         <figure>
-          <img src={img_url} alt="Shoes" />
+          <img
+            className="w-full aspect-video object-cover"
+            src={img_url}
+            alt="Shoes"
+          />
         </figure>
         <div className="card-body">
           <h3 className="card-title ">{name}</h3>

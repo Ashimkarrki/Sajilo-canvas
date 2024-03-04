@@ -18,12 +18,13 @@ const Shop = () => {
   });
 
   return (
-    <div className="bg-white">
-      <div className="flex justify-center">
+    <div className="bg-white mx-20 mt-10">
+      {/* <div className="flex justify-center">
         <input type="text" className="input input-bordered input-sm mt-4" />
-      </div>
-      <div className=" grid grid-cols-[15%_85%]">
-        <Filters />
+      </div> */}
+      <div className=" flex flex-col justify-center">
+        {/* <div className=" grid grid-cols-[15%_85%]"> */}
+        {/* <Filters /> */}
 
         <Products
           currentPage={currentPage}

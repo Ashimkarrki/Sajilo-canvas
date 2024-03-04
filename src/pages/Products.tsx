@@ -22,6 +22,7 @@ const Products = ({
             x.min === "no" ? "" : `/&min=${x.min}`
           }&page=${x.page}`
         );
+        console.log("hello");
         console.log(res.data.products);
 
         setProducts(res.data.products);

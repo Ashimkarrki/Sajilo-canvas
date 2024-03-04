@@ -1,8 +1,6 @@
-import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import RequestsComponent from "../../components/RequestsComponent";
 const DesignerRequests = () => {
   const [upload, setUpload] = useState([]);
   const instance = axios.create({
@@ -36,6 +34,13 @@ const DesignerRequests = () => {
 
     refetch();
   };
+  if (isLoading) {
+    return (
+      <div className="flex justify-center">
+        <span className="loading loading-spinner loading-xs"></span>
+      </div>
+    );
+  }
   return (
     <div className="flex justify-center my-8">
       <div className="w-2/3">
@@ -57,28 +62,32 @@ const DesignerRequests = () => {
 
                     {s?.rooms?.map((k) => {
                       return (
-                        <div className="flex  " key={k._id}>
-                          {k?.imgurl?.map((t, i) => {
-                            return (
-                              <div key={i}>
-                                <img
-                                  className="w-40 aspect-square contain border-[1px] border-red-400"
-                                  src={t}
-                                  alt="room-img"
-                                />
-                                <img
-                                  className="w-40 aspect-square contain border-[1px] border-green-400"
-                                  src={k?.editedurl[i]}
-                                  alt="room-img"
-                                />
-                              </div>
-                            );
-                          })}
+                        <div className="flex flex-col   " key={k._id}>
+                          <p className="text-center">User Requested</p>
+                          {/* <div className="flex  " key={k._id}> */}
+                          <div className="flex">
+                            {k?.imgurl?.map((t, i) => {
+                              return (
+                                <div key={i}>
+                                  <img
+                                    className="w-40 aspect-square contain border-[1px] border-red-400"
+                                    src={t}
+                                    alt="room-img"
+                                  />
+                                  <img
+                                    className="w-40 aspect-square contain border-[1px] border-green-400"
+                                    src={k?.editedurl[i]}
+                                    alt="room-img"
+                                  />
+                                </div>
+                              );
+                            })}
+                          </div>
+                          <p className="block text-center ">{k.description}</p>
                         </div>
                       );
                     })}
                   </div>
-                  <h1>- Someone</h1>
                 </div>
                 {!(data?.Progress === "Delivered") && (
                   <div>

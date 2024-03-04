@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 const UserProtected = () => {
   const user = useSelector((state) => state.user);
-  if (user.role !== "user") {
+  if (user.role !== "User" && user.role !== "user") {
     return <Navigate to="/login" replace />;
   }
   return <Outlet />;

@@ -57,17 +57,6 @@ const RequestsComponent = ({ data, refetch }) => {
     }
     setFiles(x);
   };
-  // {
-  //     projectId:"",
-  //     rooms:[
-  //         {
-  //             id:"",
-  //              imgurl:"",
-  //             editedurl:[""],
-  //         }
-  //     ]
-  // progress:""
-  // }
   const submitHandeler = async (e) => {
     e.preventDefault();
     try {

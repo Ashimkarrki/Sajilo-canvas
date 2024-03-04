@@ -3,7 +3,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setRole } from "../../redux/userSlice";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 const Login = ({ refetch }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -23,16 +26,16 @@ const Login = ({ refetch }) => {
         withCredentials: true,
         headers: { authorization: "Bearer" },
       });
-
-      refetch();
+      setIsLoading(false);
       const res = await instance.post("/login", {
         ...data,
       });
+      refetch();
       console.log(res.data.user.name);
       if (res.data.user.name === "admin") {
         dispatch(setRole("admin"));
         navigate("/admin/allproducts");
-      } else if (res.data.user.name.includes("designer")) {
+      } else if (res.data.user.name.includes("Designer")) {
         dispatch(setRole("Designer"));
 
         navigate("/designer");
@@ -41,18 +44,17 @@ const Login = ({ refetch }) => {
 
         navigate("/");
       }
+      toast.success("Welcome Back");
+      setIsLoading(true);
     } catch (err) {
+      setIsLoading(true);
+      toast.error("Something Went Wrong");
       console.error("Registration failed:", err);
     }
   };
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          className="mx-auto h-10 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-          alt="Your Company"
-        />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Sign in to your account
         </h2>
@@ -87,14 +89,6 @@ const Login = ({ refetch }) => {
               >
                 Password
               </label>
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Forgot password?
-                </a>
-              </div>
             </div>
             <div className="mt-2">
               <input

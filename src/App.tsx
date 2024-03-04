@@ -25,6 +25,13 @@ import UserRequests from "./pages/adminDashboard/UserRequests";
 import DesignerProtected from "./components/DesignerProtected";
 import Requests from "./pages/designerDashboard/Requests";
 import DesignerRequests from "./pages/adminDashboard/DesignerRequests";
+import MySubmissions from "./pages/MySubmissions";
+import MyOrders from "./pages/MyOrders";
+import NVOrderders from "./pages/NVOrderders";
+import Verified from "./pages/Verified";
+import OnDelivery from "./pages/OnDelivery";
+import Delivered from "./pages/Delivered";
+import NonUserNavbar from "./components/NonUserNavbar";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -52,15 +59,18 @@ function App() {
   if (isLoading) {
     return <span className="loading loading-infinity loading-xs"></span>;
   }
+
   return (
     <div>
       <Toaster />
       {user.role === "admin" ? (
         <AdminNavbar />
-      ) : user.role === "Designer" ? (
-        ""
-      ) : (
+      ) : user.role === "user" || user.role === "User" ? (
         <Navbar />
+      ) : user.role != "Designer" ? (
+        <NonUserNavbar />
+      ) : (
+        ""
       )}
       <Routes>
         <Route path="/login" element={<Login refetch={refetch} />} />
@@ -73,11 +83,17 @@ function App() {
         <Route element={<UserProtected />}>
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/my-sub" element={<MySubmissions />} />
+          <Route path="/my-ord" element={<MyOrders />} />
         </Route>
         <Route element={<AdminProtected />}>
           <Route path="/admin/allproducts" element={<AllProducts />} />
           <Route path="/admin/user-req" element={<UserRequests />} />
           <Route path="/admin/des-req" element={<DesignerRequests />} />
+          <Route path="/admin/nvo" element={<NVOrderders />} />
+          <Route path="/admin/vo" element={<Verified />} />
+          <Route path="/admin/ding" element={<OnDelivery />} />
+          <Route path="/admin/ded" element={<Delivered />} />
         </Route>
         <Route element={<DesignerProtected />}>
           <Route path="/designer" element={<Requests />}></Route>

@@ -36,27 +36,6 @@ const Requests = () => {
                     alt="blueprint"
                   />
                   <RequestsComponent data={s} refetch={refetch} />
-                  {/* <div className="flex flex-col  gap-4">
-                    {console.log(s)}
-
-                    {s?.rooms?.map((k) => {
-                      return (
-                        <div className="flex " key={k._id}>
-                          {k?.imgurl?.map((t, i) => {
-                            return (
-                              <img
-                                key={i}
-                                className="w-40 aspect-square contain"
-                                src={t}
-                                alt="room-img"
-                              />
-                            );
-                          })}
-                        </div>
-                      );
-                    })}
-                  </div> */}
-                  <h1>- Someone</h1>
                 </div>
               </div>
             );

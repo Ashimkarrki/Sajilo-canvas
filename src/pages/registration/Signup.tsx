@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
 const Signup = ({ refetch }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const [data, setData] = useState({
@@ -25,15 +27,20 @@ const Signup = ({ refetch }) => {
         withCredentials: true,
         headers: { authorization: "Bearer" },
       });
-
+      setIsLoading(true);
       const res = await instance.post("/register", {
         ...data,
       });
+      setIsLoading(false);
+      toast.success("Welcome");
       refetch();
       navigate("/");
 
       console.log("Registration successful:", res.data);
     } catch (err) {
+      setIsLoading(false);
+      toast.success("Something Went Wrong");
+
       console.error("Registration failed:", err);
     }
   };

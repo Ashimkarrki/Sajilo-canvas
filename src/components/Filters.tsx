@@ -82,13 +82,13 @@ const Filters = () => {
         </select>
       </div>
       <Link
-        to={`products/?${
-          options.sort === "no" ? "" : `/&sort=${options.sort}`
-        }${options.cat === "no" ? "" : `/&category=${options.cat}`}${
-          options.max === "no" ? "" : `/&max=${options.max}`
-        }${options.min === "no" ? "" : `/&min=${options.min}`}&page=${1}`}
+        to={`/shop/${1}/${options.sort === "no/" ? "" : `${options.sort}/`}${
+          options.cat === "no/" ? "" : `${options.cat}/`
+        }${options.min === "no/" ? "" : `${options.min}/`}${
+          options.max === "no/" ? "" : `${options.max}`
+        }`}
       >
-        <button onClick={(e) => e.preventDefault()} className="btn btn-ghost">
+        <button type="button" className="btn btn-ghost">
           Apply
         </button>
       </Link>

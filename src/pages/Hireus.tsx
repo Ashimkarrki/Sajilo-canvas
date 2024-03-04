@@ -1,10 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-
+import toast from "react-hot-toast";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { imageDb } from "../firebase/firebaseConfig";
+import { useNavigate } from "react-router-dom";
 const Hireus = () => {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [data, setData] = useState([
     {
       img: [],
@@ -47,6 +51,7 @@ const Hireus = () => {
       headers: { authorization: "Bearer" },
     });
     try {
+      setIsLoading(true);
       const temp = await Promise.all(
         data.map(async (s) => {
           return {
@@ -71,8 +76,14 @@ const Hireus = () => {
         rooms: [...temp],
         blueprintURL,
       });
+      toast.success("Submitted Sucessfully");
+      setIsLoading(false);
+      navigate("/my-sub");
       console.log(res);
     } catch (err) {
+      setIsLoading(false);
+      toast.error("Something went wrong");
+
       console.log(err);
     }
   };
@@ -154,7 +165,13 @@ const Hireus = () => {
           Add Another Room
         </button>
         <div className="flex justify-end">
-          <button className="btn btn-primary btn-sm">Submit</button>
+          {isLoading ? (
+            <button className="btn">
+              <span className="loading loading-spinner">Loading</span>
+            </button>
+          ) : (
+            <button className="btn btn-primary btn-sm">Submit</button>
+          )}
         </div>
       </form>
     </div>
