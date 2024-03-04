@@ -56,7 +56,7 @@ const OrderSummary = ({ amt, cartId, name, products, refetch }) => {
     const payload = {
       return_url: "http://localhost:5173/cart",
       website_url: "http://localhost:5173",
-      amount: parseInt(amt + ship) * 100,
+      amount: parseInt(amt + ship) > 1000 ? 1000 : parseInt(amt + ship) * 100,
       purchase_order_id: cartId,
       purchase_order_name: name,
       customer_info: {
