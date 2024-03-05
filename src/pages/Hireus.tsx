@@ -50,7 +50,7 @@ const Hireus = () => {
     const payload = {
       return_url: "http://localhost:5173/hireus",
       website_url: "http://localhost:5173",
-      amount: totalRoom * 1000 > 1000 ? 1000 : totalRoom * 1000 * 100,
+      amount: totalRoom * 1000 > 1000 ? 100000 : totalRoom * 1000 * 100,
       purchase_order_id: uuidv4(),
       purchase_order_name: "Designing",
       customer_info: {
